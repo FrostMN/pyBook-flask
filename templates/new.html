@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-header">
+                        <img src="/static/img/book.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                        pyBook: New Book
+                    </div>
+                    <div class="card-body">
+                        <form action="/add" method="POST">
+                            <div class="form-group">
+                                {{ newBook._title }} <br> {{ newBook._author_ln }}, {{ newBook._author_fn }}
+                            </div>
+                            <input type="hidden" name="ISBN" value="{{ newBook._isbn10 }}">
+                            <button type="submit" class="btn btn-primary">Add Book</button>
+                        </form>
+                        <form action="/">
+                            <button type="submit" class="btn btn-primary">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

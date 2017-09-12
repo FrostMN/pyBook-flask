@@ -1,0 +1,46 @@
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="/static/img/book.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            pyBook
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+                <!--
+                <a class="nav-item nav-link" href="#">Features</a>
+                <a class="nav-item nav-link" href="#">Pricing</a>
+                -->
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout: {{ creds.user }}</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row two-em-top-margin">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <nav class="navbar navbar-light bg-light justify-content-between">
+                            <a class="navbar-brand"><h4>Library</h4></a>
+                            <form id="srchISBN" class="form-inline">
+                                <input class="form-control mr-sm-2" type="text" name="ISBN" id="ISBNfromBox" placeholder="Search ISBN" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" onclick="searchISBN()">Search</button>
+                                {% if isbnSrch.0 %}
+                                    {% include "edit-modal.html" %}
+                                {% endif %}
+                            </form>
+                        </nav>
+                    </div>
+                    <ul>
+                        {% for book in dbBooks %}
+                            {% include "book.html" %}
+                        {% else %}
+                            <li><em>No entries here so far</em></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

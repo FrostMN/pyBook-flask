@@ -1,0 +1,135 @@
+<div class="card">
+    <div class="card-body">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand">Title: {{ book.3 }} Author: {{ book.4 }}, {{ book.5 }}
+
+                    {% if book.6 == 1 %}
+                        Lent To: {{ book.7 }}
+                    {% else %}
+                    {% endif %}
+                    </a>
+                </div>
+                <ul class="nav navbar-nav">
+                    {% if book.6 == 1 %}
+                        <li class="nav-item">
+                        <a class="nav-link">
+                            <button id="btnReturn{{ book.1 }}" value="{{ book.1 }}"  onclick="returnBookModal({{ book.1 }})" class="btn btn-outline-success my-2 my-sm-0 book-btn" type="submit">Return</button>
+                        </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><button id="btnLend{{ book.1 }}" value="{{ book.1 }}"  onclick="lendBookModal({{ book.1 }})" class="btn btn-outline-success my-2 my-sm-0 book-btn" type="submit">Lend</button></li>
+                    {% endif %}
+                    {% if creds.admin == True %}
+                        <li class="nav-item"><button id="btnEdit{{ book.1 }}" value="{{ book.1 }}"  onclick="editBookModal({{ book.1 }})" class="btn btn-outline-success my-2 my-sm-0 book-btn" type="submit">Edit</button></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!--
+
+<div class="card">
+    <div class="navbar">
+        <a class="navbar-brand">{{ book.3 }} | {{ book.4 }}, {{ book.5 }}</a>
+        <ul class="nav navbar-nav">
+            {% if book.6 == 1 %}
+                <li class="nav-item"><button id="btnReturn{{ book.1 }}" value="{{ book.1 }}"  onclick="returnBookModal({{ book.1 }})" class="btn btn-outline-success my-2 my-sm-0 book-btn" type="submit">Return</button></li>
+            {% else %}
+                <li class="nav-item"><button id="btnLend{{ book.1 }}" value="{{ book.1 }}"  onclick="lendBookModal({{ book.1 }})" class="btn btn-outline-success my-2 my-sm-0 book-btn" type="submit">Lend</button></li>
+            {% endif %}
+            {% if creds.admin == True %}
+                <li class="nav-item"><button id="btnEdit{{ book.1 }}" value="{{ book.1 }}"  onclick="editBookModal({{ book.1 }})" class="btn btn-outline-success my-2 my-sm-0 book-btn" type="submit">Edit</button></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+-->
+
+<div id="editModal{{ book.1 }}" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <!--<span class="close" onclick="closeModal({{ book.1 }})">&times;</span> -->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm modal-col-sm">
+                    <div class="card modal-card">
+                        <div class="card-header">
+                            <img src="/static/img/book.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                            Edit Book: {{ book.3 }}         <span class="close" onclick="closeEditModal({{ book.1 }})">&times;</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                {{ book.3 }} <br> {{ book.4 }}, {{ book.5 }}
+                            </div>
+                            <input type="hidden" name="ISBN" value="{{ book.1 }}">
+                            <button onclick="deleteBookButton('{{ book.1 }}')" class="btn btn-danger">Delete</button>
+                            <button onclick="closeEditModal('{{ book.1 }}')" class="btn btn-primary">Cancel</button>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="lendModal{{ book.1 }}" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <!--<span class="close" onclick="closeModal({{ book.1 }})">&times;</span> -->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm modal-col-sm">
+                    <div class="card modal-card">
+                        <div class="card-header">
+                            <img src="/static/img/book.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                            Lend Book: {{ book.3 }}<span class="close" onclick="closeLendModal({{ book.1 }})">&times;</span>
+                        </div>
+                        <div class="card-body">
+                            <form action="/lend" method="POST">
+                                <label for="lendee">Lend to:<br></label>
+                                <input type="text" name="LENDEE"><br><br>
+                                <input type="hidden" name="ISBN" value="{{ book.1 }}">
+                                <button type="submit" class="btn btn-success">Lend</button>
+                            </form>
+                            <button type="submit" class="btn btn-primary" onclick="closeLendModal({{ book.1 }})">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="returnModal{{ book.1 }}" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <!--<span class="close" onclick="closeModal({{ book.1 }})">&times;</span> -->
+        <div class="container modal-boot">
+            <div class="row">
+                <div class="col-sm modal-col-sm">
+                    <div class="card modal-card">
+                        <div class="card-header">
+                            <img src="/static/img/book.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                            Return Book: {{ book.3 }}<span class="close" onclick="closeReturnModal({{ book.1 }})">&times;</span>
+                        </div>
+                        <div class="card-body">
+                            <form action="/returned" method="POST">
+                                Has {{ book.7 }} returned "{{ book.3 }}" ?
+                                <input type="hidden" name="ISBN" value="{{ book.1 }}">
+                                <button type="submit" class="btn btn-success">Return</button>
+                            </form>
+                                <button type="submit" class="btn btn-primary" onclick="closeReturnModal({{ book.1 }})">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
