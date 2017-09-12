@@ -1,0 +1,6 @@
+
+.DS_Store
+.idea/inspectionProfiles/
+.idea/workspace.xml
+__pycache__/
+/config.py
