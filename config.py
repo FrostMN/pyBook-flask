@@ -1,1 +1,1 @@
-config = {'API_URL': 'http://isbndb.com/api/v2/json/{{KEY}}/book/', 'API_KEY': '', 'SECRET_KEY': '', 'USERNAME': 'testing', 'PASSWORD': '123Testing', 'DEBUG': 'True'}
+config = ""
